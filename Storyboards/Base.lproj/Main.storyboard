@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -48,16 +47,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="34.5" y="30.5"/>
+            <point key="canvasLocation" x="-385" y="29"/>
         </scene>
-        <!--View Controller-->
+        <!--Current Weather View Controller-->
         <scene sceneID="mTQ-wz-IAl">
             <objects>
-                <viewController id="Cd9-zb-1hg" sceneMemberID="viewController">
+                <viewController id="Cd9-zb-1hg" customClass="CurrentWeatherViewController" customModule="Sky" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xnn-Bi-FkY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="254"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Yb1-kI-vPq">
+                                <rect key="frame" x="177" y="117" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mKG-bi-Tw7">
+                                <rect key="frame" x="166.5" y="116" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sAb-i0-auL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="254"/>
                                 <subviews>
@@ -75,6 +83,9 @@
                                             <constraint firstAttribute="width" constant="44" id="kte-NI-CWa"/>
                                         </constraints>
                                         <state key="normal" image="LocationBtn"/>
+                                        <connections>
+                                            <action selector="locationButtonPressed:" destination="Cd9-zb-1hg" eventType="touchUpInside" id="eAk-V6-w0G"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bYD-oc-QGr">
                                         <rect key="frame" x="323" y="8" width="44" height="44"/>
@@ -85,6 +96,9 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="yvu-VX-xYX"/>
                                         </constraints>
                                         <state key="normal" image="Setting"/>
+                                        <connections>
+                                            <action selector="settingButtonPressed:" destination="Cd9-zb-1hg" eventType="touchUpInside" id="EQA-3z-KDy"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="28°C" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnq-Yi-8uY">
                                         <rect key="frame" x="8" y="113.5" width="107.5" height="27.5"/>
@@ -93,7 +107,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="37%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0D-Vz-mc1">
-                                        <rect key="frame" x="259.5" y="113" width="107.5" height="29"/>
+                                        <rect key="frame" x="260" y="112.5" width="107" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -105,13 +119,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Clear" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8L-kG-RUz">
-                                        <rect key="frame" x="167.5" y="199" width="40.5" height="21"/>
+                                        <rect key="frame" x="167" y="199" width="41" height="20.5"/>
                                         <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mon, 25 Sep" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="447-Wa-SoZ">
-                                        <rect key="frame" x="140" y="225" width="94" height="19.5"/>
+                                        <rect key="frame" x="140" y="224.5" width="94" height="19.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <color key="textColor" red="0.91545373201370239" green="0.29303181171417236" blue="0.21219718456268311" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -144,15 +158,31 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="sAb-i0-auL" secondAttribute="trailing" id="2uh-Zq-KuW"/>
+                            <constraint firstItem="Yb1-kI-vPq" firstAttribute="centerX" secondItem="Xnn-Bi-FkY" secondAttribute="centerX" id="DYc-2X-jwG"/>
                             <constraint firstItem="sAb-i0-auL" firstAttribute="top" secondItem="Xnn-Bi-FkY" secondAttribute="top" id="Eqd-ot-SFc"/>
+                            <constraint firstItem="mKG-bi-Tw7" firstAttribute="centerX" secondItem="Xnn-Bi-FkY" secondAttribute="centerX" id="Q74-ii-9h4"/>
+                            <constraint firstItem="Yb1-kI-vPq" firstAttribute="centerY" secondItem="Xnn-Bi-FkY" secondAttribute="centerY" id="iyB-dU-gP5"/>
                             <constraint firstItem="sAb-i0-auL" firstAttribute="leading" secondItem="Xnn-Bi-FkY" secondAttribute="leading" id="sFs-3E-00D"/>
+                            <constraint firstItem="mKG-bi-Tw7" firstAttribute="centerY" secondItem="Xnn-Bi-FkY" secondAttribute="centerY" id="yOC-PG-rKO"/>
                             <constraint firstAttribute="bottom" secondItem="sAb-i0-auL" secondAttribute="bottom" id="zD9-rP-IBU"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="5Hn-3C-ziB"/>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="Yb1-kI-vPq" id="92n-0L-Lod"/>
+                        <outlet property="dateLabel" destination="447-Wa-SoZ" id="eBb-Y7-91C"/>
+                        <outlet property="humidityLabel" destination="R0D-Vz-mc1" id="ihJ-jL-L6T"/>
+                        <outlet property="loadingFailedLabel" destination="mKG-bi-Tw7" id="yDU-Gu-2Cc"/>
+                        <outlet property="locationLabel" destination="wgz-7n-vYn" id="9GA-sc-PS2"/>
+                        <outlet property="summaryLabel" destination="m8L-kG-RUz" id="UO6-QP-Hlf"/>
+                        <outlet property="temperatureLabel" destination="dnq-Yi-8uY" id="kAy-2Y-gj8"/>
+                        <outlet property="weatherContainerView" destination="sAb-i0-auL" id="oMD-DS-6An"/>
+                        <outlet property="weatherIcon" destination="2Xx-qe-Nu7" id="JbM-gM-lc3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ycy-U4-6Sy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="720.79999999999995" y="-141.22938530734635"/>
+            <point key="canvasLocation" x="359" y="-157"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Hbz-yR-NcE">
@@ -162,11 +192,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="381"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="tKj-ft-5Ge"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuQ-Du-fKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="708" y="218"/>
+            <point key="canvasLocation" x="358" y="210"/>
         </scene>
     </scenes>
     <resources>
