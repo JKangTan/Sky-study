@@ -42,7 +42,9 @@ class CurrentWeatherViewController: WeatherViewController {
     
     var location: Location? {
         didSet {
-             self.updateView()
+            DispatchQueue.main.async {
+                self.updateView()
+            }
         }
     }
     
@@ -68,8 +70,8 @@ class CurrentWeatherViewController: WeatherViewController {
             data.currently.temperature.toCelcius())
         weatherIcon.image = weatherIcon(of: data.currently.icon)
         humidityLabel.text = String(
-            format: "%.1f",
-            data.currently.humidity)
+            format: "%.1f %%",
+            data.currently.humidity * 100)
         summaryLabel.text = data.currently.summary
         
         let formatter = DateFormatter()
@@ -84,20 +86,5 @@ class CurrentWeatherViewController: WeatherViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

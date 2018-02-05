@@ -10,11 +10,30 @@ import UIKit
 import CoreLocation
 
 class RootViewController: UIViewController {
-
+    var currentWeatherController: CurrentWeatherViewController!
+    private let segueCurrentWather = "segueCurrentWeather"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let identify = segue.identifier else {
+            return
+        }
+        switch identify {
+        case segueCurrentWather:
+            guard let destination = segue.destination as? CurrentWeatherViewController else {
+                fatalError("Invalid destination")
+            }
+            destination.delegate = self
+            currentWeatherController = destination
+        default:
+            break
+        }
+    }
+    
     private var currentLocation: CLLocation? {
         didSet {
             // 获取城市名称 和 天气
-            
+            fetchCity()
+            fetchWeather()
         }
     }
     
@@ -26,7 +45,13 @@ class RootViewController: UIViewController {
         
         WeatherDataManager.shared.weatherDataAt(latitude: lat, longitude: lon, completion: {
             response, error in
-            
+            if let error = error {
+                dump(error)
+            }
+            else if let response = response {
+                // Notify CurrentWeather
+                self.currentWeatherController.now = response
+            }
         })
     }
     
@@ -42,6 +67,8 @@ class RootViewController: UIViewController {
             }
             else if let city = placemarks?.first?.locality {
                 // 通知 CurrentWeatherController
+                let l = Location(name: city, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
+               self.currentWeatherController.location = l
             }
         })
     }
@@ -105,7 +132,16 @@ extension RootViewController: CLLocationManagerDelegate{
     }
 }
 
-
+extension RootViewController: CurrentWeatherViewControllerDelegate {
+    func settingsButtonPressed(controller: CurrentWeatherViewController) {
+        print("setting")
+    }
+    
+    func locationButtonPressed(controller: CurrentWeatherViewController) {
+        print("location")
+    }
+    
+}
 
 
 
