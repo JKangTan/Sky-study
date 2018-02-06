@@ -8,6 +8,54 @@
 
 import Foundation
 
+internal class DarkSkyURLSession: URLSessionProtocol {
+    func dataTask(with Request: URLRequest, completionHandler: @escaping DataTaskHandler) -> URLSessionDataTaskProtocol {
+        return DarkSkyURLSessionDataTask(request: Request, completion: completionHandler)
+    }
+}
+
+internal class DarkSkyURLSessionDataTask: URLSessionDataTaskProtocol {
+    private let  requst: URLRequest
+    private let completion: DataTaskHandler
+    
+    init(request: URLRequest, completion: @escaping DataTaskHandler) {
+        self.requst = request
+        self.completion = completion
+    }
+    
+    func resume() {
+        //访问环境变量
+        let json = ProcessInfo.processInfo.environment["fakeJSON"]
+        if let json = json {
+            let response = HTTPURLResponse(
+                url: requst.url!,
+                statusCode: 200,
+                httpVersion: nil,
+                headerFields: nil
+            )
+            let data = json.data(using: .utf8)!
+            
+            completion(data, response, nil)
+        }
+    }
+}
+
+internal struct Config {
+    private static func isUITesting() -> Bool {
+       return ProcessInfo.processInfo.arguments.contains("UI-TESTING")
+    }
+    
+    static var urlSession: URLSessionProtocol = {
+        if isUITesting() {
+            //MOCK 系统的 urlSession 
+            return DarkSkyURLSession()
+        }
+        else {
+            return URLSession.shared
+        }
+    }()
+}
+
 enum DataManagerError: Error {
     case failedRequest
     case unvalidResponse
@@ -22,7 +70,7 @@ final class WeatherDataManager {
         self.urlSession = urlSession
     }
     //创建单利对象
-    static let shared = WeatherDataManager(baseURL: API.authenticatedURL, urlSession: URLSession.shared)
+    static let shared = WeatherDataManager(baseURL: API.authenticatedURL, urlSession: Config.urlSession)
     // 异步回调函数 返回 model 对象和错误信息
     typealias CompletionHandler = (WeatherData?, DataManagerError?) -> Void
     
