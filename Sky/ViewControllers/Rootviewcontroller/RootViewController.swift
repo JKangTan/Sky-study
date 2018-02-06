@@ -23,6 +23,7 @@ class RootViewController: UIViewController {
                 fatalError("Invalid destination")
             }
             destination.delegate = self
+            destination.viewModel = CurrentWeatherViewModel()
             currentWeatherController = destination
         default:
             break
@@ -50,7 +51,7 @@ class RootViewController: UIViewController {
             }
             else if let response = response {
                 // Notify CurrentWeather
-                self.currentWeatherController.now = response
+                self.currentWeatherController.viewModel?.weather = response
             }
         })
     }
@@ -68,15 +69,15 @@ class RootViewController: UIViewController {
             else if let city = placemarks?.first?.locality {
                 // 通知 CurrentWeatherController
                 let l = Location(name: city, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-               self.currentWeatherController.location = l
+               self.currentWeatherController.viewModel?.location = l
             }
         })
     }
     
     private lazy var locatoinManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.distanceFilter = 1000
-        manager.desiredAccuracy = 1000
+        manager.distanceFilter = 100
+        manager.desiredAccuracy = 100
         return manager
     }()
     
