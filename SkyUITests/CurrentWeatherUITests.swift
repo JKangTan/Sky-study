@@ -2,38 +2,36 @@
 //  CurrentWeatherUITests.swift
 //  SkyUITests
 //
-//  Created by Tan on 2018/2/6.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 20/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import XCTest
 
 class CurrentWeatherUITests: XCTestCase {
-        
-    // 获取当前 APP 运行实例
-    let app = XCUIApplication()
     
+    let app = XCUIApplication()
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = false
+        
         app.launchArguments += ["UI-TESTING"]
-        app.launchEnvironment["fakeJSON"] = """
-        {
-        "latitude":37.8267,
-        "longitude":-122.4233,
-        "currently":{
-        "time":1517542568,
-        "summary":"Clear",
-        "icon":"clear-night",
-        "temperature":62.14,
-        "humidity":0.54
-        }
+        app.launchEnvironment["FakeJSON"] = """
+            {
+                "longitude" : 100,
+                "latitude" : 52,
+                "currently" : {
+                "temperature" : 23,
+                "humidity" : 0.91,
+                "icon" : "snow",
+                "time" : 1507180335,
+                "summary" : "Light Snow"
+            }
         }
         """
         app.launch()
-        //设计测试用例
     }
     
     override func tearDown() {
@@ -42,14 +40,38 @@ class CurrentWeatherUITests: XCTestCase {
     }
     
     func test_location_button_exists() {
-        let locationBtn = app.buttons["locationBtn"]
-        let exists = NSPredicate(format: "exists == true")
-        
-        expectation(for: exists, evaluatedWith: locationBtn, handler: nil)
-        waitForExpectations(timeout: 5, handler: nil)
+        let locationBtn = app.buttons["LocationBtn"]
+//        let exists = NSPredicate(format: "exists == true")
+//
+//        expectation(for: exists, evaluatedWith: locationBtn, handler: nil)
+//        waitForExpectations(timeout: 5, handler: nil)
         
         XCTAssert(locationBtn.exists)
     }
     
+    func test_current_weather_display() {
+        XCTAssert(app.images["snow"].exists)
+        XCTAssert(app.staticTexts["Light Snow"].exists)
+    }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

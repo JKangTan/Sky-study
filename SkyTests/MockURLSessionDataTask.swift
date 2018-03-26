@@ -2,17 +2,17 @@
 //  MockURLSessionDataTask.swift
 //  SkyTests
 //
-//  Created by Tan on 2018/2/2.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 07/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import Foundation
-@testable import Sky
+@testable import SkyDemo
 
 class MockURLSessionDataTask: URLSessionDataTaskProtocol {
-    private (set) var isResusmeCalled = false
+    private (set) var isResumeCalled = false
     
     func resume() {
-        self.isResusmeCalled = true
+        self.isResumeCalled = true
     }
 }

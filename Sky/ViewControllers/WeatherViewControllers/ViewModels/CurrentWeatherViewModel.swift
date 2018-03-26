@@ -2,11 +2,10 @@
 //  CurrentWeatherViewModel.swift
 //  Sky
 //
-//  Created by Tan on 2018/2/6.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 19/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 struct CurrentWeatherViewModel {
@@ -16,39 +15,41 @@ struct CurrentWeatherViewModel {
     var isUpdateReady: Bool {
         return isLocationReady && isWeatherReady
     }
+    
     var location: Location! {
         didSet {
             if location != nil {
                 self.isLocationReady = true
             }
-            else{
+            else {
                 self.isLocationReady = false
             }
         }
     }
+    
     var weather: WeatherData! {
         didSet {
             if weather != nil {
                 self.isWeatherReady = true
             }
-            else{
+            else {
                 self.isWeatherReady = false
             }
         }
-    }
-    
-    var weatherIcon: UIImage {
-        return UIImage.weatherIcon(of: weather.currently.icon)!
     }
     
     var city: String {
         return location.name
     }
     
+    var weatherIcon: UIImage {
+        return UIImage.weatherIcon(of: weather.currently.icon)!
+    }
+    
     var temperature: String {
         return String(
-            format: "%.1f ℃",
-            weather.currently.temperature.toCelcius())
+            format: "%.1f °C",
+            weather.currently.temperature.toCelsius())
     }
     
     var humidity: String {
@@ -63,9 +64,8 @@ struct CurrentWeatherViewModel {
     
     var date: String {
         let formatter = DateFormatter()
-        formatter.dateFormat="yyyy年MM月dd日"
-        return formatter.string(from: (weather.currently.time))
+        formatter.dateFormat = "E, dd MMMM"
+        
+        return formatter.string(from: weather.currently.time)
     }
-
-
 }

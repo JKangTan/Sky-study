@@ -10,21 +10,31 @@ import UIKit
 import CoreLocation
 
 class RootViewController: UIViewController {
-    var currentWeatherController: CurrentWeatherViewController!
-    private let segueCurrentWather = "segueCurrentWeather"
+
+    var currentWeatherViewController: CurrentWeatherViewController!
+    var weekWeatherViewController: WeekWeatherViewController!
+    
+    private let segueCurrentWeather = "SegueCurrentWeather"
+    private let segueWeekWeather = "SegueWeekWeather"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let identify = segue.identifier else {
-            return
-        }
-        switch identify {
-        case segueCurrentWather:
+        guard let identifier = segue.identifier else { return }
+        
+        switch identifier {
+        case segueCurrentWeather:
             guard let destination = segue.destination as? CurrentWeatherViewController else {
-                fatalError("Invalid destination")
+                fatalError("Invalid destination view controller.")
             }
+            
             destination.delegate = self
             destination.viewModel = CurrentWeatherViewModel()
-            currentWeatherController = destination
+            currentWeatherViewController = destination
+        case segueWeekWeather:
+            guard let destination = segue.destination as? WeekWeatherViewController else {
+                fatalError("Invalid destination view controller.")
+            }
+            
+            weekWeatherViewController = destination
         default:
             break
         }
@@ -32,7 +42,6 @@ class RootViewController: UIViewController {
     
     private var currentLocation: CLLocation? {
         didSet {
-            // 获取城市名称 和 天气
             fetchCity()
             fetchWeather()
         }
@@ -50,16 +59,15 @@ class RootViewController: UIViewController {
                 dump(error)
             }
             else if let response = response {
-                // Notify CurrentWeather
-                self.currentWeatherController.viewModel?.weather = response
+                // Nofity CurrentWeatherViewController
+                self.currentWeatherViewController.viewModel?.weather = response
+                self.weekWeatherViewController.viewModel = WeekWeatherViewModel(weatherData: response.daily.data)
             }
         })
     }
     
     private func fetchCity() {
-        guard let currentLocation = currentLocation else {
-            return
-        }
+        guard let currentLocation = currentLocation else { return }
         
         CLGeocoder().reverseGeocodeLocation(currentLocation, completionHandler: {
             placemarks, error in
@@ -67,28 +75,32 @@ class RootViewController: UIViewController {
                 dump(error)
             }
             else if let city = placemarks?.first?.locality {
-                // 通知 CurrentWeatherController
-                let l = Location(name: city, latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude)
-               self.currentWeatherController.viewModel?.location = l
+                // Notify CurrentWeatherViewController
+                let l = Location(
+                    name: city,
+                    latitude: currentLocation.coordinate.latitude,
+                    longitude: currentLocation.coordinate.longitude)
+                self.currentWeatherViewController.viewModel?.location = l
             }
         })
     }
     
-    private lazy var locatoinManager: CLLocationManager = {
+    private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.distanceFilter = 100
-        manager.desiredAccuracy = 100
+        manager.distanceFilter = 1000
+        manager.desiredAccuracy = 1000
+        
         return manager
     }()
     
     private func requestLocation() {
-        locatoinManager.delegate = self
+        locationManager.delegate = self
         
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            locatoinManager.requestLocation()
+            locationManager.requestLocation()
         }
-        else { //请求授权
-            locatoinManager.requestWhenInUseAuthorization()
+        else {
+            locationManager.requestWhenInUseAuthorization()
         }
     }
     
@@ -99,24 +111,24 @@ class RootViewController: UIViewController {
     }
     
     @objc func applicationDidBecomeActive(notification: Notification) {
-        // 请求位置信息
+        // Request user's location.
         requestLocation()
     }
 
-    func setupActiveNotification() {
+    private func setupActiveNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(applicationDidBecomeActive(notification:)),
+            selector: #selector(RootViewController.applicationDidBecomeActive(notification:)),
             name: Notification.Name.UIApplicationDidBecomeActive,
             object: nil)
     }
 }
 
-extension RootViewController: CLLocationManagerDelegate{
+extension RootViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             currentLocation = location
-            manager.delegate = nil //获取到后取消监听
+            manager.delegate = nil
             
             manager.stopUpdatingLocation()
         }
@@ -134,53 +146,12 @@ extension RootViewController: CLLocationManagerDelegate{
 }
 
 extension RootViewController: CurrentWeatherViewControllerDelegate {
-    func settingsButtonPressed(controller: CurrentWeatherViewController) {
-        print("setting")
-    }
-    
     func locationButtonPressed(controller: CurrentWeatherViewController) {
-        print("location")
+        print("Open locations")
     }
     
+    func settingsButtonPressed(controller: CurrentWeatherViewController) {
+        print("Open settings")
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -2,8 +2,8 @@
 //  WeatherViewController.swift
 //  Sky
 //
-//  Created by Tan on 2018/2/2.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 13/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import UIKit
@@ -14,8 +14,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var loadingFailedLabel: UILabel!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
-    
-    func setupView() -> Void {
+    private func setupView() {
         weatherContainerView.isHidden = true
         loadingFailedLabel.isHidden = true
         
@@ -28,5 +27,4 @@ class WeatherViewController: UIViewController {
 
         setupView()
     }
-
 }

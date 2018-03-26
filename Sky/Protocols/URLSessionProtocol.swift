@@ -2,8 +2,8 @@
 //  URLSessionProtocol.swift
 //  Sky
 //
-//  Created by Tan on 2018/2/1.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 06/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,9 @@ import Foundation
 typealias DataTaskHandler = (Data?, URLResponse?, Error?) -> Void
 
 protocol URLSessionProtocol {
-
     
-    func dataTask (with Request: URLRequest, completionHandler: @escaping DataTaskHandler) -> URLSessionDataTaskProtocol
+    func dataTask(
+        with request: URLRequest,
+        completionHandler: @escaping DataTaskHandler)
+        -> URLSessionDataTaskProtocol
 }

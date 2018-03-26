@@ -2,14 +2,14 @@
 //  UIImage.swift
 //  Sky
 //
-//  Created by Tan on 2018/2/6.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 19/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import UIKit
 
 extension UIImage {
-    class func weatherIcon(of name: String) -> UIImage?{
+    class func weatherIcon(of name: String) -> UIImage? {
         switch name {
         case "clear-day":
             return UIImage(named: "clear-day")

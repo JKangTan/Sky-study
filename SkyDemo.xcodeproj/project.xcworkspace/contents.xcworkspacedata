@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Sky.xcodeproj">
+      location = "self:/Users/puretears/Desktop/MVVM/SkyDemo/SkyDemo.xcodeproj">
    </FileRef>
 </Workspace>

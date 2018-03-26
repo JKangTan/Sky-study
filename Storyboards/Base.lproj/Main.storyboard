@@ -23,13 +23,13 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sMS-bS-LFi">
                                 <rect key="frame" x="0.0" y="20" width="375" height="254"/>
                                 <connections>
-                                    <segue destination="Cd9-zb-1hg" kind="embed" identifier="segueCurrentWeather" id="N9r-ed-0gS"/>
+                                    <segue destination="Cd9-zb-1hg" kind="embed" identifier="SegueCurrentWeather" id="N9r-ed-0gS"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uhz-Si-uYr">
                                 <rect key="frame" x="0.0" y="286" width="375" height="381"/>
                                 <connections>
-                                    <segue destination="2YR-9t-QKF" kind="embed" id="zuA-vj-MBK"/>
+                                    <segue destination="2YR-9t-QKF" kind="embed" identifier="SegueWeekWeather" id="zuA-vj-MBK"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -278,6 +278,7 @@
                                         </prototypes>
                                         <connections>
                                             <outlet property="dataSource" destination="2YR-9t-QKF" id="sdq-eL-1Ep"/>
+                                            <outlet property="delegate" destination="2YR-9t-QKF" id="vSx-M4-3i5"/>
                                         </connections>
                                     </tableView>
                                 </subviews>

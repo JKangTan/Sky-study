@@ -2,8 +2,8 @@
 //  CurrentWeatherViewController.swift
 //  Sky
 //
-//  Created by Tan on 2018/2/2.
-//  Copyright © 2018年 Mars. All rights reserved.
+//  Created by Mars on 13/10/2017.
+//  Copyright © 2017 Mars. All rights reserved.
 //
 
 import UIKit
@@ -28,41 +28,37 @@ class CurrentWeatherViewController: WeatherViewController {
         delegate?.locationButtonPressed(controller: self)
     }
     
-    @IBAction func settingButtonPressed(_ sender: UIButton) {
+    @IBAction func settingsButtonPressed(_ sender: UIButton) {
         delegate?.settingsButtonPressed(controller: self)
     }
     
     var viewModel: CurrentWeatherViewModel? {
         didSet {
-            DispatchQueue.main.async {
-                self.updateView()
-            }
+            DispatchQueue.main.async { self.updateView() }
         }
     }
     
     func updateView() {
-        activityIndicatorView.startAnimating()
+        activityIndicatorView.stopAnimating()
         
-        if let vm = viewModel, vm.isUpdateReady{
+        if let vm = viewModel, vm.isUpdateReady {
             updateWeatherContainer(with: vm)
-        } else {
+        }
+        else {
             loadingFailedLabel.isHidden = false
-            loadingFailedLabel.text = "获取位置或天气失败"
+            loadingFailedLabel.text = "Fetch weather/location failed."
         }
     }
     
-    func updateWeatherContainer(with vm: CurrentWeatherViewModel){
+    func updateWeatherContainer(with vm: CurrentWeatherViewModel) {
         weatherContainerView.isHidden = false
         
-        //格式化数据
-        // 设置位置
         locationLabel.text = vm.city
         temperatureLabel.text = vm.temperature
         weatherIcon.image = vm.weatherIcon
         humidityLabel.text = vm.humidity
         summaryLabel.text = vm.summary
         dateLabel.text = vm.date
-
     }
     
     override func viewDidLoad() {
@@ -70,6 +66,47 @@ class CurrentWeatherViewController: WeatherViewController {
 
         // Do any additional setup after loading the view.
     }
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
